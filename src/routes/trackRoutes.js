@@ -27,8 +27,23 @@ router.post("/tracks", async (req, res) => {
     } catch (err) {
         res.status(422).send({ error: err.message })
     }
-
 })
 
+router.delete("/tracks", async (req, res) => {
+    const { id } = req.body
+    console.log("you are tryng to delete", id)
+    if (!id) {
+        return res.status(422).send({ error: "No track id provided to delete!" })
+    }
+    try {
+        const result = await Track.deleteOne({ _id: id })
+    } catch (err) {
+        return res.status(422).send({ error: "Problem deleting track!" })
+    }
+
+
+    return res.send("deleted!")
+
+})
 
 module.exports = router
